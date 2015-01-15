@@ -2,8 +2,8 @@
 Tasks = new Mongo.Collection("tasks");
 
 if (Meteor.isClient) {
-  // Replace the existing Template.body.helpers
-	Template.body.helpers({
+    // Replace the existing Template.body.helpers
+    Template.body.helpers({
 	  tasks: function () {
 	    if (Session.get("hideCompleted")) {
 	      // If hide completed is checked, filter tasks
@@ -15,7 +15,12 @@ if (Meteor.isClient) {
 	  },
 	  hideCompleted: function () {
 	    return Session.get("hideCompleted");
-	  }
+	  },
+
+	  // Add to Template.body.helpers
+      incompleteCount: function () {
+         return Tasks.find({checked: {$ne: true}}).count();
+      }
 	});
 
 	  // Inside the if (Meteor.isClient) block, right after Template.body.helpers:
@@ -25,6 +30,8 @@ if (Meteor.isClient) {
 	    var text = event.target.text.value;
 
 	    Tasks.insert({
+	      owner: Meteor.userId(),
+	      username: Meteor.user().username, //username of logged in user
 	      text: text,
 	      createdAt: new Date() // current time
 	    });
@@ -54,6 +61,11 @@ if (Meteor.isClient) {
 	    Tasks.remove(this._id);
 	  }
 	});
+
+	// At the bottom of the client code
+    Accounts.ui.config({
+      passwordSignupFields: "USERNAME_ONLY"
+    });
 }
 
 
