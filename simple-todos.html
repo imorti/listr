@@ -2,7 +2,6 @@
 <head>
   <title>Listr</title>
 </head>
-
 <body>
 <div class="container">
   <header>
@@ -15,7 +14,6 @@
   Hide Completed Tasks
   {{> loginButtons}}
 </label>
-
   <!-- add a form below the h1 -->
   {{#if currentUser}}
   <form class="new-task">
@@ -23,10 +21,9 @@
   </form>
   {{/if}}
   </header>
-
   <ul>
     {{#each tasks}}
-    {{> task}}
+      {{>task}}
     {{/each}}
   </ul>
 </div>
@@ -36,9 +33,7 @@
 <template name="task">
   <li class="{{#if checked}}checked{{/if}}">
     <button class="delete">&times;</button>
-
     <input type="checkbox" checked="{{checked}}" class="toggle-checked" />
-
-    <span class="text">{{text}}</span>
+    <span class="text"><strong>{{username}}</strong> - {{text}}</span>
   </li>
 </template>
